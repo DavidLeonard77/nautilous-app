@@ -16,132 +16,166 @@
 
 <div class="control-panel">
 
-  <div class="play-control">
-    <button mat-raised-button color="primary" (click)="start()">Start</button>
-    <button mat-raised-button color="warn" (click)="stop()">Stop</button>
+  <!-- Station Resource -->
+  <div class="station-vitals">
+
+    <!-- Play Controls -->
+    <div class="play-control">
+      <button mat-raised-button color="primary" (click)="start()">Start</button>
+      <button mat-raised-button color="warn" (click)="stop()">Stop</button>
+    </div>
+
+    <!-- Resources -->
+    <mat-card class="resource-levels">
+      <mat-card-subtitle>
+        <span>Container Levels</span>
+        <span [ngClass]="{'color-primary': timer}">Day {{day}}</span>
+      </mat-card-subtitle>
+      <mat-card-content>
+
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="label">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Resource </th>
+            <td mat-cell *matCellDef="let container">{{container.resource.label}}</td>
+          </ng-container>
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Value </th>
+            <td mat-cell *matCellDef="let container"> {{container.value | number :'1.0-0'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="progress">
+            <th mat-header-cell *matHeaderCellDef>Level</th>
+            <td mat-cell *matCellDef="let container"> 
+              <mat-progress-bar
+                class="example-margin"
+                [color]="container.value ? 'primary' : 'warn'"
+                [mode]="'determinate'"
+                [value]="container.value * (100/container.max)"
+              >
+              </mat-progress-bar>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="max">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Max </th>
+            <td mat-cell *matCellDef="let container"> {{container.max}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+      </mat-card-content>
+    </mat-card>
+
   </div>
   
-  <div class="available-components">
-    <div class="component" *ngFor="let stationComponentLabel of stationService.stationComponentList; let i = index;">
-      <button mat-stroked-button color="accent" (click)="addStationComponent(stationComponentLabel)">{{stationComponentLabel}}</button>
-    </div>
-  </div>
+  <!-- Available Components -->
+  <mat-card class="available-components">
+    <mat-card-subtitle>
+      <span>Assembly</span>
+    </mat-card-subtitle>
+    <mat-card-content>
+      <button
+        *ngFor="let stationComponentLabel of stationService.stationComponentList; let i = index;"
+        mat-stroked-button
+        color="accent"
+        (click)="addStationComponent(stationComponentLabel)"
+      >{{stationComponentLabel}}</button>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="available-deliveries">
-    <div class="delivery" *ngFor="let stationDeliveryLabel of stationService.stationDeliveryList; let i = index;">
-      <button mat-stroked-button color="warn" (click)="addStationDelivery(i)">{{stationDeliveryLabel}}</button>
-    </div>
-  </div>
+  <!-- Available Deliveries -->
+  <mat-card class="available-deliveries">
+    <mat-card-subtitle>
+      <span>Deliveries</span>
+    </mat-card-subtitle>
+    <mat-card-content>
+      <button
+        *ngFor="let stationDeliveryLabel of stationService.stationDeliveryList; let i = index;"
+        mat-stroked-button
+        color="accent"
+        (click)="addStationDelivery(i)"
+      >{{stationDeliveryLabel}}</button>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="available-personel">
-    <div class="personel" *ngFor="let stationPersonelLabel of stationService.stationPersonelList; let i = index;">
-      <button mat-stroked-button color="primary" (click)="addStationPersonel(i)">{{stationPersonelLabel}}</button>
-    </div>
-  </div>
+  <!-- Available Personel -->
+  <mat-card class="available-personel">
+    <mat-card-subtitle>
+      <span>Academy</span>
+    </mat-card-subtitle>
+    <mat-card-content>
+      <button
+        *ngFor="let stationPersonelLabel of stationService.stationPersonelList; let i = index;"
+        mat-stroked-button
+        color="accent"
+        (click)="addStationPersonel(i)"
+      >{{stationPersonelLabel}}</button>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="station">
+  <!-- Personel -->
+  <mat-card class="station-personel">
+    <mat-card-subtitle>Personel</mat-card-subtitle>
+    <mat-card-content>
+      <mat-chip-list>
+        <mat-chip
+          [color]="'primary'"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="removeStationPersonel(i)"
+          *ngFor="let personel of stationService.spaceStation.personel; let i = index;"
+        >
+          {{personel.alt}} <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </mat-card-content>
+  </mat-card>
 
-    <!-- Resource List -->
-    <div class="station-resources">
-      
-      <!-- Personel -->
-      <mat-card *ngIf="stationService.spaceStation.personel.length">
-        <mat-card-subtitle>Personel</mat-card-subtitle>
-        <mat-card-content>
-          <mat-chip-list>
-            <mat-chip
-              [color]="'primary'"
-              [selectable]="true"
-              [removable]="true"
-              (removed)="removeStationPersonel(i)"
-              *ngFor="let personel of stationService.spaceStation.personel; let i = index;"
-            >
-              {{personel.label}} <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-        </mat-card-content>
-      </mat-card>
-      
-      <!-- Resources -->
-      <mat-card *ngIf="dataSource">
-        <mat-card-subtitle>Container Levels</mat-card-subtitle>
-        <mat-card-content>
+  <!-- Component List -->
+  <div class="station-components">
+          
+    <!-- Components -->
+    <mat-card
+      [ngClass]="{'active' : component.active, 'disabled' : component.disabled}"
+      *ngFor="let component of stationService.spaceStation.components; let i = index;"
+    >
+    
+      <mat-card-subtitle>
 
-          <table mat-table [dataSource]="dataSource" matSort>
-            <ng-container matColumnDef="label">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Resource </th>
-              <td mat-cell *matCellDef="let container"> {{container.resource.label}}&nbsp;<span>{{container.resource.alt}}</span></td>
+        <mat-slide-toggle
+          class="example-margin"
+          [checked]="component.active"
+          (toggleChange)="component.active = !component.active"
+        ></mat-slide-toggle>
+
+        <mat-icon svgIcon="ports"></mat-icon>
+
+        <span>{{component.label}}</span>
+
+        <mat-icon svgIcon="close" (click)="removeStationComponent(i)"></mat-icon>
+      </mat-card-subtitle>
+
+      <mat-card-content>
+        <mat-chip-list>
+          <ng-container *ngFor="let resource of stationService.resources;">
+            <ng-container *ngFor="let port of component.ports;">
+              <mat-chip *ngIf="resource.type === port.type">
+                {{resource.alt}}&nbsp;
+                <span [ngClass]="[port.vector > 0 ? 'positive' : 'negative']">{{port.vector}}</span>
+              </mat-chip>
             </ng-container>
-            <ng-container matColumnDef="value">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Value </th>
-              <td mat-cell *matCellDef="let container"> {{container.value | number :'1.0-0'}} </td>
+            <ng-container *ngFor="let container of component.containers;">
+              <mat-chip *ngIf="resource.type === container.type">
+                {{resource.alt}}&nbsp;
+                <span>{{container.max}}</span>
+              </mat-chip>
             </ng-container>
-            <ng-container matColumnDef="progress">
-              <th mat-header-cell *matHeaderCellDef>Level</th>
-              <td mat-cell *matCellDef="let container"> 
-                <mat-progress-bar
-                  class="example-margin"
-                  [color]="'primary'"
-                  [mode]="'determinate'"
-                  [value]="container.value * (100/container.max)"
-                >
-                </mat-progress-bar>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="max">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Max </th>
-              <td mat-cell *matCellDef="let container"> {{container.max}} </td>
-            </ng-container>
+          </ng-container>
+        </mat-chip-list>
+      </mat-card-content>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
+    </mat-card>
 
-        </mat-card-content>
-      </mat-card>
-
-    </div>
-
-    <!-- Component List -->
-    <div class="station-components">
-      <mat-card [ngClass]="{'active' : component.active, 'disabled' : component.disabled}" *ngFor="let component of stationService.spaceStation.components; let i = index;">
-      
-        <mat-card-subtitle>
-
-          <mat-slide-toggle
-            class="example-margin"
-            [checked]="component.active"
-            (toggleChange)="component.active = !component.active"
-          ></mat-slide-toggle>
-
-          <mat-icon svgIcon="ports"></mat-icon>
-
-          <span>{{component.label}}</span>
-
-          <mat-icon svgIcon="close" (click)="removeStationComponent(i)"></mat-icon>
-        </mat-card-subtitle>
-
-        <mat-card-content>
-          <mat-chip-list>
-            <ng-container *ngFor="let resource of stationService.resources;">
-              <ng-container *ngFor="let port of component.ports;">
-                <mat-chip *ngIf="resource.type === port.type">
-                  {{resource.alt}}&nbsp;
-                  <span [ngClass]="[port.vector > 0 ? 'positive' : 'negative']">{{port.vector}}</span>
-                </mat-chip>
-              </ng-container>
-              <ng-container *ngFor="let container of component.containers;">
-                <mat-chip *ngIf="resource.type === container.type">
-                  {{resource.alt}}&nbsp;
-                  <span>{{container.max}}</span>
-                </mat-chip>
-              </ng-container>
-            </ng-container>
-          </mat-chip-list>
-        </mat-card-content>
-
-      </mat-card>
-    </div>
   </div>
 
 </div>

@@ -1,33 +1,63 @@
-$warn: #FF4081;
+$warn: #ff5722;
 $primary: #cddc39;
+
+.color-primary {
+  color: $primary;
+}
+.color-warn {
+  color: $warn;
+}
 
 .mat-card-header-text {
   width: 100% !important;
   margin: 0;
 }
 
+mat-card-subtitle {
+  width: 100%;
+  display: grid;
+  grid: {
+    gap: 16px;
+    template: {
+      columns: 1fr auto;
+    }
+  }
+  span {
+    margin: auto auto auto 0;
+  }
+}
+
 .control-panel {
+  height: calc(100vh - 16px);
   display: grid;
   grid: {
     gap: 10px;
+    template: {
+      columns: 1fr 1fr;
+      rows: auto auto auto auto auto 1fr;
+    }
   }
 
-  .station {
+  .station-vitals {
     display: grid;
     grid: {
+      row: 1/7;
+      template-rows: auto 1fr;
+      column: 1/2;
       gap: 10px;
-        template: {
-            columns: 1fr 1fr;
-        }
     }
-    .station-resources {
+
+    .play-control {
       display: grid;
       grid: {
         gap: 10px;
+        template: {
+          columns: 1fr 1fr;
+        }
       }
-      .mat-progress-bar-buffer {
-        background-color: #3c3c3c !important;
-      }
+    }
+    
+    .resource-levels {
       table {
         width: 100%;
         tr {
@@ -41,7 +71,7 @@ $primary: #cddc39;
             }
           }
         }
-
+  
         .mat-column-progress {
           width: 100%;
         }
@@ -50,88 +80,84 @@ $primary: #cddc39;
         }
       }
     }
-    .station-components {
-      display: grid;
-      grid: {
-        gap: 10px;
-      }
-      mat-card {
-        opacity: 0.75;
-        &.active {
-          opacity: 1;
-          mat-card-subtitle {
-            mat-icon {
-              fill: $primary;
-            }
-          }
-        }
-        &.disabled {
-          mat-card-subtitle {
-            mat-icon {
-              fill: $warn;
-            }
-          }
-          mat-card-content {
-            mat-chip {
-              opacity : 0.5;
-              color: #BDBDBD;
-              span {
-                color: #BDBDBD !important;
-              }
-            }
-          }
-        }
-        mat-card-subtitle {
-          width: 100%;
-          display: grid;
-          grid: {
-            gap: 16px;
-            template: {
-              columns: auto auto 1fr auto;
-            }
-          }
-          span {
-            margin: auto auto auto 0;
-          }
-        }
-        mat-card-content {
-          mat-chip {
-            span {
-              color: #BDBDBD;
-              &.negative {
-                color: $warn;
-              }
-              &.positive {
-                color: $primary;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .play-control {
-    display: grid;
-    grid: {
-      gap: 10px;
-      template: {
-          columns: 1fr 1fr;
-      }
-    }
   }
 
   .available-components,
   .available-deliveries,
   .available-personel {
-    display: grid;
-    grid-auto-flow: column;
-    grid: {
-      gap: 10px;
-      auto-flow: column;
+    mat-card-content {
+      display: grid;
+      grid: {
+        column-start: 2;
+        gap: 10px;
+        template-columns: auto auto auto auto;
+      }
+      button {
+        width: 100%;
+      }
     }
-    button {
-      width: 100%;
+  }
+
+  .station-personel {
+    display: grid;
+    grid: {
+      column-start: 2;
+      gap: 10px;
+    }
+  }
+
+  .station-components {
+    display: grid;
+    grid: {
+      column-start: 2;
+      gap: 10px;
+    }
+    mat-card {
+      opacity: 0.75;
+      &.active {
+        opacity: 1;
+        mat-card-subtitle {
+          mat-icon {
+            fill: $primary;
+          }
+        }
+      }
+      &.disabled {
+        mat-card-subtitle {
+          mat-icon {
+            fill: $warn;
+          }
+        }
+        mat-card-content {
+          mat-chip {
+            opacity : 0.5;
+            color: #BDBDBD;
+            span {
+              color: #BDBDBD !important;
+            }
+          }
+        }
+      }
+      mat-card-subtitle {
+        grid: {
+          template: {
+            columns: auto auto 1fr auto;
+          }
+        }
+      }
+      mat-card-content {
+        mat-chip {
+          span {
+            color: #BDBDBD;
+            &.negative {
+              color: $warn;
+            }
+            &.positive {
+              color: $primary;
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   timer;
   interval: number;
   value: number;
+  day: number;
 
   displayedColumns: string[] = ['label', 'value', 'progress', 'max'];
 
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
 
     this.timer = null;
     this.interval = 1000;
+    this.day = 0;
 
     console.log(this.stationService.spaceStation);
   }
@@ -54,7 +56,7 @@ export class AppComponent implements OnInit {
 
     console.log(delivery);
     this.stationService.applyStationDelivery(delivery);
-    this.stationService.stationDeliveryList.splice(index, 1);
+    // this.stationService.stationDeliveryList.splice(index, 1);
     console.log(this.stationService.spaceStation);
   }
 
@@ -64,7 +66,7 @@ export class AppComponent implements OnInit {
 
     console.log(personel);
     this.stationService.spaceStation.personel.unshift(personel);
-    this.stationService.stationPersonelList.splice(index, 1);
+    // this.stationService.stationPersonelList.splice(index, 1);
     console.log(this.stationService.spaceStation);
   }
 
@@ -84,7 +86,8 @@ export class AppComponent implements OnInit {
     console.log(event);
   }
 
-  private effectResources(): void {
+  private runComponents(): void {
+    this.day++;
     this.stationService.runComponents();
     this.dataSource = new MatTableDataSource(this.stationService.resourceContainers);
     this.dataSource.sort = this.sort;
@@ -97,7 +100,7 @@ export class AppComponent implements OnInit {
       return;
     }
     this.timer = setInterval(() => {
-        this.effectResources();
+      this.runComponents();
     }, this.interval);
   }
   stop(): void {

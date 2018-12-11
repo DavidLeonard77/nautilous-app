@@ -41,9 +41,9 @@ export class SpaceStationService {
     ];
 
     this.stationPersonelList = [
-      'Station Engineer',
-      'Station Engineer',
-      'Station Engineer'
+      'Electrical Engineer',
+      'Botanical Scientist',
+      'Station Medic'
     ];
 
     this.resources = [
@@ -176,23 +176,44 @@ export class SpaceStationService {
   getStationPersonel(label: string): StationPersonel {
     let stationPersonel: StationPersonel;
 
+    const globalPorts: ComponentPort[] = [
+      new ComponentPort('water', -.1, [ this.applyVector ]),
+      new ComponentPort('oxygen', -.21, [ this.applyVector ]),
+      new ComponentPort('carbondioxide', .21, [ this.applyVector ]),
+      new ComponentPort('nitrogen', -.01, [ this.applyVector ]),
+      new ComponentPort('protein', -.1, [ this.applyVector ]),
+      new ComponentPort('carbohydrates', -.2, [ this.applyVector ]),
+      new ComponentPort('fat', -.1, [ this.applyVector ]),
+      new ComponentPort('vitamins', -.05, [ this.applyVector ]),
+      new ComponentPort('minerals', -.05, [ this.applyVector ])
+    ];
+
     switch (label) {
 
-      case 'Station Engineer':
-        stationPersonel = new StationComponent(
-          'engineer',
-          'Station Engineer',
-          [
-            new ComponentPort('water', -.1, [ this.applyVector ]),
-            new ComponentPort('oxygen', -.21, [ this.applyVector ]),
-            new ComponentPort('carbondioxide', .21, [ this.applyVector ]),
-            new ComponentPort('nitrogen', -.01, [ this.applyVector ]),
-            new ComponentPort('protein', -.1, [ this.applyVector ]),
-            new ComponentPort('carbohydrates', -.2, [ this.applyVector ]),
-            new ComponentPort('fat', -.1, [ this.applyVector ]),
-            new ComponentPort('vitamins', -.05, [ this.applyVector ]),
-            new ComponentPort('minerals', -.05, [ this.applyVector ])
-          ]
+      case 'Electrical Engineer':
+        stationPersonel = new StationPersonel(
+          'engineering',
+          'Electrical Engineer',
+          'EE',
+          globalPorts
+        );
+      break;
+
+      case 'Botanical Scientist':
+        stationPersonel = new StationPersonel(
+          'botanical',
+          'Botanical Scientist',
+          'BS',
+          globalPorts
+        );
+      break;
+
+      case 'Station Medic':
+        stationPersonel = new StationPersonel(
+          'medicine',
+          'Station Medic',
+          'SM',
+          globalPorts
         );
       break;
     }
