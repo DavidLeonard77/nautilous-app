@@ -1,0 +1,141 @@
+$warn: #f44336;
+$primary: #c2185b;
+$positive: #18a9c2;
+$active: #18c259;
+
+.mat-card-header-text {
+  width: 100% !important;
+  margin: 0;
+}
+
+.control-panel {
+  display: grid;
+  grid: {
+    gap: 10px;
+  }
+
+  .station {
+    display: grid;
+    grid: {
+      gap: 10px;
+        template: {
+            columns: 1fr 1fr;
+        }
+    }
+    .station-resources {
+      display: grid;
+      grid: {
+        gap: 10px;
+      }
+      .mat-progress-bar-buffer {
+        background-color: #3c3c3c !important;
+      }
+      table {
+        width: 100%;
+        tr {
+          th {
+            padding-right: 24px;
+          }
+          td {
+            padding-right: 24px;
+            &:last-child {
+              width: 100%;
+            }
+          }
+        }
+
+        .mat-column-progress {
+          width: 100%;
+        }
+        .mat-column-value {
+          text-align: right;
+        }
+      }
+    }
+    .station-components {
+      display: grid;
+      grid: {
+        gap: 10px;
+      }
+      mat-card {
+        opacity: 0.75;
+        &.active {
+          opacity: 1;
+          mat-card-subtitle {
+            mat-icon {
+              fill: $active;
+            }
+          }
+        }
+        &.disabled {
+          mat-card-subtitle {
+            mat-icon {
+              fill: $warn;
+            }
+          }
+          mat-card-content {
+            mat-chip {
+              opacity : 0.5;
+              color: #999999;
+              span {
+                color: #999999 !important;
+              }
+            }
+          }
+        }
+        mat-card-subtitle {
+          width: 100%;
+          display: grid;
+          grid: {
+            gap: 16px;
+            template: {
+              columns: auto auto 1fr auto;
+            }
+          }
+          span {
+            margin: auto auto auto 0;
+          }
+        }
+        mat-card-content {
+          mat-chip {
+            span {
+              &.negative {
+                color: $warn;
+              }
+              &.active {
+                color: $active;
+              }
+              &.positive {
+                color: $positive
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .play-control {
+    display: grid;
+    grid: {
+      gap: 10px;
+      template: {
+          columns: 1fr 1fr;
+      }
+    }
+  }
+
+  .available-components,
+  .available-deliveries,
+  .available-personel {
+    display: grid;
+    grid-auto-flow: column;
+    grid: {
+      gap: 10px;
+      auto-flow: column;
+    }
+    button {
+      width: 100%;
+    }
+  }
+}

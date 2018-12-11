@@ -1,0 +1,46 @@
+<div class="round-slider-container" [ngStyle]="{'width': width + 'px', 'height': height + 'px'}">
+
+  <svg [attr.width]="width" [attr.height]="height">
+    <g [attr.transform]="'translate(' + (width / 2) + ',' + (height / 2) + ')'">
+      <g>
+
+        <!-- Image 1 -->
+        <image
+          [attr.width]="radius * 2"
+          [attr.height]="radius * 2"
+          [attr.y]="-radius"
+          [attr.x]="-radius"
+          [attr.xlink:href]="imageUrls[0]"
+        ></image>
+
+        <!-- Image 2 -->
+        <clipPath id="clipPath">
+          <path id="clip" [attr.d]="clipPathData"></path>
+        </clipPath>
+        <image
+          clip-path="url(#clipPath)"
+          [attr.width]="radius * 2"
+          [attr.height]="radius * 2"
+          [attr.y]="-radius"
+          [attr.x]="-radius"
+          [attr.xlink:href]="imageUrls[1]"
+        ></image>
+        <use xlink:href="#clip" class="clip"/>
+
+        <!-- Handle -->
+        <g class="handle" [ngClass]="{'dragging': dragging}">
+          <path id="path" [attr.d]="arcPathData"></path>
+          <use xlink:href="#path" class="path"/>
+          <circle #handle
+            class="dot"
+            r="20"
+            [attr.cx]="xpos"
+            [attr.cy]="ypos"
+          ></circle>
+        </g>
+        
+      </g>
+    </g>
+  </svg>
+
+</div>

@@ -1,18 +1,50 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { SpaceStationComponent } from 'src/components/space-station/space-station.component';
+import { SpaceStationService } from 'src/services/space-station.service';
+import { StationModuleService } from 'src/services/station-module.service';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SpaceStationComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatIconModule,
+    MatTableModule,
+    MatSortModule,
+    MatProgressBarModule,
+    MatCardModule,
+    MatBadgeModule,
+    MatSlideToggleModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    SpaceStationService,
+    StationModuleService
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: []
 })
 export class AppModule { }
