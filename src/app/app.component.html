@@ -127,13 +127,13 @@
               <ng-container *ngFor="let port of component.ports;">
                 <mat-chip *ngIf="resource.type === port.type">
                   {{resource.alt}}&nbsp;
-                  <span [ngClass]="[port.vector > 0 ? 'active' : 'negative']">{{port.vector}}</span>
+                  <span [ngClass]="[port.vector > 0 ? 'positive' : 'negative']">{{port.vector}}</span>
                 </mat-chip>
               </ng-container>
               <ng-container *ngFor="let container of component.containers;">
                 <mat-chip *ngIf="resource.type === container.type">
                   {{resource.alt}}&nbsp;
-                  <span class="positive">{{container.max}}</span>
+                  <span>{{container.max}}</span>
                 </mat-chip>
               </ng-container>
             </ng-container>

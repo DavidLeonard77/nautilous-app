@@ -1,7 +1,5 @@
-$warn: #f44336;
-$primary: #c2185b;
-$positive: #18a9c2;
-$active: #18c259;
+$warn: #FF4081;
+$primary: #cddc39;
 
 .mat-card-header-text {
   width: 100% !important;
@@ -63,7 +61,7 @@ $active: #18c259;
           opacity: 1;
           mat-card-subtitle {
             mat-icon {
-              fill: $active;
+              fill: $primary;
             }
           }
         }
@@ -76,9 +74,9 @@ $active: #18c259;
           mat-card-content {
             mat-chip {
               opacity : 0.5;
-              color: #999999;
+              color: #BDBDBD;
               span {
-                color: #999999 !important;
+                color: #BDBDBD !important;
               }
             }
           }
@@ -99,14 +97,12 @@ $active: #18c259;
         mat-card-content {
           mat-chip {
             span {
+              color: #BDBDBD;
               &.negative {
                 color: $warn;
               }
-              &.active {
-                color: $active;
-              }
               &.positive {
-                color: $positive
+                color: $primary;
               }
             }
           }
