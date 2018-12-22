@@ -24,6 +24,8 @@ import { StationResourceService } from 'src/services/station-resource.service';
 import { StationDeliveryService } from 'src/services/station-delivery.service';
 import { StationSponsorService } from 'src/services/station-sponsor.service';
 import { CurrencyService } from 'src/services/currency.service';
+import { GameCycleService } from 'src/services/game-cycle.service';
+
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import { CurrencyService } from 'src/services/currency.service';
     StationResourceService,
     StationDeliveryService,
     StationSponsorService,
-    CurrencyService
+    CurrencyService,
+    GameCycleService
   ],
   bootstrap: [AppComponent],
   entryComponents: []
