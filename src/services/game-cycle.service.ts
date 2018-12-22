@@ -29,6 +29,7 @@ export class GameCycleService {
       return;
     }
     this.timer = setInterval(() => {
+      this.day++;
       this.pulseSubject.next(null);
     }, this.interval);
   }
