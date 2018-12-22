@@ -18,7 +18,12 @@ import { AppComponent } from './app.component';
 
 import { SpaceStationComponent } from 'src/components/space-station/space-station.component';
 import { SpaceStationService } from 'src/services/space-station.service';
-import { StationModuleService } from 'src/services/station-module.service';
+import { StationComponentService } from 'src/services/station-component.service';
+import { StationPersonelService } from 'src/services/station-personel.service';
+import { StationResourceService } from 'src/services/station-resource.service';
+import { StationDeliveryService } from 'src/services/station-delivery.service';
+import { StationSponsorService } from 'src/services/station-sponsor.service';
+import { CurrencyService } from 'src/services/currency.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +47,12 @@ import { StationModuleService } from 'src/services/station-module.service';
   ],
   providers: [
     SpaceStationService,
-    StationModuleService
+    StationComponentService,
+    StationPersonelService,
+    StationResourceService,
+    StationDeliveryService,
+    StationSponsorService,
+    CurrencyService
   ],
   bootstrap: [AppComponent],
   entryComponents: []

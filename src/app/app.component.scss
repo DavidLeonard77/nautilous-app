@@ -28,20 +28,21 @@ mat-card-subtitle {
 }
 
 .control-panel {
-  height: calc(100vh - 16px);
+  // height: calc(100vh - 16px);
   display: grid;
   grid: {
     gap: 10px;
     template: {
       columns: 1fr 1fr;
-      rows: auto auto auto auto auto 1fr;
+      rows: auto auto auto auto 1fr;
     }
   }
 
   .station-vitals {
+    // padding-bottom: 10px;
     display: grid;
     grid: {
-      row: 1/7;
+      row: 1/6;
       template-rows: auto 1fr;
       column: 1/2;
       gap: 10px;
@@ -118,22 +119,48 @@ mat-card-subtitle {
         opacity: 1;
         mat-card-subtitle {
           mat-icon {
-            fill: $primary;
+            &.icon-ports {
+              fill: $primary;
+            }
+            &.icon-personel {
+              &.personel-filled {
+                fill: $primary;
+              }
+            }
           }
         }
       }
       &.disabled {
         mat-card-subtitle {
           mat-icon {
-            fill: $warn;
+            &.icon-ports {
+              fill: rgba(255, 255, 255, 0.7);
+              &.failure {
+                fill: $warn;
+              }
+            }
+            &.icon-personel {
+              &.personel-vacant {
+                fill: $warn;
+              }
+              &.personel-filled {
+                fill: rgba(255, 255, 255, 0.7);
+              }
+            }
           }
         }
         mat-card-content {
           mat-chip {
-            opacity : 0.5;
+            opacity : 0.75;
             color: #BDBDBD;
             span {
               color: #BDBDBD !important;
+            }
+            &.warn {
+              color: $warn;
+              span {
+                color: $warn !important;
+              }
             }
           }
         }
@@ -141,7 +168,7 @@ mat-card-subtitle {
       mat-card-subtitle {
         grid: {
           template: {
-            columns: auto auto 1fr auto;
+            columns: 1fr auto auto auto auto;
           }
         }
       }

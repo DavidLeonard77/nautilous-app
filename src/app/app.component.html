@@ -142,29 +142,44 @@
     
       <mat-card-subtitle>
 
+        <span>{{component.label}}</span>
+
+        <div><mat-icon
+          *ngFor="let post of component.posts"
+          class="icon-personel"
+          [ngClass]="[post.personel ? 'personel-filled' : 'personel-vacant']"
+          [svgIcon]="post.personel ? 'personel-filled' : 'personel-vacant'"
+          (click)="assignStationPersonel(post)"
+        ></mat-icon></div>
+
+        <mat-icon
+          class="icon-ports"
+          svgIcon="ports"
+          [ngClass]="{'failure' : component.portFailure}"
+        ></mat-icon>
+
         <mat-slide-toggle
-          class="example-margin"
           [checked]="component.active"
           (toggleChange)="component.active = !component.active"
         ></mat-slide-toggle>
-
-        <mat-icon svgIcon="ports"></mat-icon>
-
-        <span>{{component.label}}</span>
 
         <mat-icon svgIcon="close" (click)="removeStationComponent(i)"></mat-icon>
       </mat-card-subtitle>
 
       <mat-card-content>
-        <mat-chip-list>
-          <ng-container *ngFor="let resource of stationService.resources;">
-            <ng-container *ngFor="let port of component.ports;">
-              <mat-chip *ngIf="resource.type === port.type">
+        <mat-chip-list #chipList [multiple]="true">
+          <ng-container *ngFor="let resource of stationResourceService.resources">
+            <ng-container *ngFor="let port of component.ports">
+              <mat-chip
+                *ngIf="resource.type === port.type"
+                [color]="port.fault ? 'warn' : 'none'"
+                selected
+              >
                 {{resource.alt}}&nbsp;
                 <span [ngClass]="[port.vector > 0 ? 'positive' : 'negative']">{{port.vector}}</span>
               </mat-chip>
             </ng-container>
-            <ng-container *ngFor="let container of component.containers;">
+            <ng-container *ngFor="let container of component.containers">
               <mat-chip *ngIf="resource.type === container.type">
                 {{resource.alt}}&nbsp;
                 <span>{{container.max}}</span>

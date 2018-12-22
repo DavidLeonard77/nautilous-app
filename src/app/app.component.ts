@@ -1,9 +1,17 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { MatTableDataSource, MatSort, MatIconRegistry } from '@angular/material';
-import { SpaceStationService } from 'src/services/space-station.service';
-
-import { StationResource, ResourceDelivery, ResourceContainer, StationPersonel } from 'src/modals/space-station.type';
+import { MatTableDataSource, MatSort, MatIconRegistry, MatChipList } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+
+import { SpaceStationService } from 'src/services/space-station.service';
+import { StationPersonelService } from 'src/services/station-personel.service';
+
+import { ResourceContainer } from 'src/modals/station-resource.type';
+import { ResourceDelivery } from 'src/modals/station-delivery.type';
+import { StationDeliveryService } from 'src/services/station-delivery.service';
+import { ComponentPost } from 'src/modals/station-component.type';
+import { StationPersonel } from 'src/modals/station-personel.type';
+import { StationComponentService } from 'src/services/station-component.service';
+import { StationResourceService } from 'src/services/station-resource.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +21,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class AppComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatChipList) chipList: MatChipList;
 
   timer;
   interval: number;
@@ -25,12 +34,18 @@ export class AppComponent implements OnInit {
 
   constructor(
     private stationService: SpaceStationService,
+    private stationPersonelService: StationPersonelService,
+    private stationDeliveryService: StationDeliveryService,
+    private stationComponentService: StationComponentService,
+    public stationResourceService: StationResourceService,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
 
     iconRegistry.addSvgIcon('close', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/baseline-close-24px.svg'));
     iconRegistry.addSvgIcon('ports', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/baseline-settings_input_composite-24px.svg'));
+    iconRegistry.addSvgIcon('personel-filled', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/baseline-account_circle-24px.svg'));
+    iconRegistry.addSvgIcon('personel-vacant', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/outline-account_circle-24px.svg'));
 
     this.timer = null;
     this.interval = 1000;
@@ -42,27 +57,36 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.stationService.spaceStation.components);
+
+
+    // this.chipList.chipSelectionChanges.subscribe((matChipSelectionChange: MatChipSelectionChange) => {
+    //   console.log(matChipSelectionChange);
+    // });
+  }
+
+  selected(e): void {
+    console.log(e);
   }
 
   addStationComponent(label: string): void {
     console.log(label);
-    this.stationService.spaceStation.components.unshift(this.stationService.getStationConfig(label));
+    this.stationService.spaceStation.components.unshift(this.stationComponentService.getStationConfig(label));
     console.log(this.stationService.spaceStation);
   }
 
   addStationDelivery(index: number): void {
     const label: string = this.stationService.stationDeliveryList[index];
-    const delivery: ResourceDelivery = this.stationService.getStationDelivery(label);
+    const delivery: ResourceDelivery = this.stationDeliveryService.getStationDelivery(label);
 
     console.log(delivery);
-    this.stationService.applyStationDelivery(delivery);
+    this.stationDeliveryService.applyStationDelivery(delivery);
     // this.stationService.stationDeliveryList.splice(index, 1);
     console.log(this.stationService.spaceStation);
   }
 
   addStationPersonel(index: number): void {
     const label: string = this.stationService.stationPersonelList[index];
-    const personel: StationPersonel = this.stationService.getStationPersonel(label);
+    const personel: StationPersonel = this.stationPersonelService.getStationPersonel(label);
 
     console.log(personel);
     this.stationService.spaceStation.personel.unshift(personel);
@@ -72,6 +96,10 @@ export class AppComponent implements OnInit {
 
   removeStationPersonel(index: number): void {
     this.stationService.spaceStation.personel.splice(index, 1);
+  }
+
+  assignStationPersonel(post: ComponentPost): void {
+    this.stationPersonelService.assignStationPersonel(post);
   }
 
   removeStationComponent(index: number): void {
