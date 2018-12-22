@@ -29,7 +29,8 @@
     <mat-card class="resource-levels">
       <mat-card-subtitle>
         <span>Container Levels</span>
-        <span [ngClass]="{'color-primary': timer}">Day {{day}}</span>
+        <span>Funds: {{stationService.spaceStation.wallet | number : '1.0-0'}}</span>
+        <span [ngClass]="{'color-primary': timer}">Day {{gameCycleService.day}}</span>
       </mat-card-subtitle>
       <mat-card-content>
 
@@ -40,7 +41,7 @@
           </ng-container>
           <ng-container matColumnDef="value">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Value </th>
-            <td mat-cell *matCellDef="let container"> {{container.value | number :'1.0-0'}} </td>
+            <td mat-cell *matCellDef="let container"> {{container.value | number : '1.0-0'}} </td>
           </ng-container>
           <ng-container matColumnDef="progress">
             <th mat-header-cell *matHeaderCellDef>Level</th>

@@ -8,6 +8,7 @@ import { StationComponentService } from 'src/services/station-component.service'
 import { StationResourceService } from 'src/services/station-resource.service';
 import { GameCycleService } from 'src/services/game-cycle.service';
 import { StationDeliveryService } from 'src/services/station-delivery.service';
+import { StationSponsorService } from 'src/services/station-sponsor.service';
 
 import { ResourceContainer } from 'src/modals/station-resource.type';
 import { ResourceDelivery } from 'src/modals/station-delivery.type';
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
     private stationPersonelService: StationPersonelService,
     private stationDeliveryService: StationDeliveryService,
     private stationComponentService: StationComponentService,
+    public stationSponsorService: StationSponsorService,
     public stationResourceService: StationResourceService,
     public gameCycleService: GameCycleService,
     iconRegistry: MatIconRegistry,
