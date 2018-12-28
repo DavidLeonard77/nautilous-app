@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { SpaceStationService } from './space-station.service';
 import { StationResourceService } from './station-resource.service';
+import { MarketService } from './market.service';
 
 import { ResourceDelivery } from 'src/modals/station-delivery.type';
 import { ResourceContainer, StationResource } from 'src/modals/station-resource.type';
@@ -11,6 +12,7 @@ export class StationDeliveryService {
 
   constructor(
     private spaceStationService: SpaceStationService,
+    private marketService: MarketService,
     private stationResourceService: StationResourceService
   ) {
   }
@@ -46,6 +48,21 @@ export class StationDeliveryService {
     }
 
     return resourceDelivery;
+
+  }
+
+  purchaseStationDelivery(label: string): void {
+    const delivery: ResourceDelivery = this.getStationDelivery(label);
+
+    let totalCost = delivery.cost;
+    delivery.resourceContainers.forEach((container: ResourceContainer) => {
+      totalCost += (container.resource.cost * container.value);
+    });
+
+    if (totalCost <= this.spaceStationService.spaceStation.wallet) {
+      this.marketService.purchase(totalCost);
+      this.applyStationDelivery(delivery);
+    }
 
   }
 

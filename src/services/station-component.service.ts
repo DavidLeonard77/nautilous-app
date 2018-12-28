@@ -3,11 +3,15 @@ import { Injectable } from '@angular/core';
 import { StationResourceService } from './station-resource.service';
 
 import { ComponentContainer, StationComponent, ComponentPort, ComponentPost } from 'src/modals/station-component.type';
+import { MarketService } from './market.service';
+import { SpaceStationService } from './space-station.service';
 
 @Injectable()
 export class StationComponentService {
 
   constructor(
+    private spaceStationService: SpaceStationService,
+    private marketService: MarketService,
     private stationResourceService: StationResourceService
   ) {
   }
@@ -148,6 +152,17 @@ export class StationComponentService {
     }
 
     return stationComponent;
+
+  }
+
+  purchaseComponent(label: string): void {
+
+    const stationComponent: StationComponent = this.getStationConfig(label);
+
+    if (stationComponent.cost <= this.spaceStationService.spaceStation.wallet) {
+      this.marketService.purchase(stationComponent.cost);
+      this.spaceStationService.spaceStation.components.unshift(stationComponent);
+    }
 
   }
 

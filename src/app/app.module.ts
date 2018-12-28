@@ -23,7 +23,8 @@ import { StationPersonelService } from 'src/services/station-personel.service';
 import { StationResourceService } from 'src/services/station-resource.service';
 import { StationDeliveryService } from 'src/services/station-delivery.service';
 import { StationSponsorService } from 'src/services/station-sponsor.service';
-import { CurrencyService } from 'src/services/currency.service';
+import { SpaceAcademyService } from 'src/services/space-academy.service';
+import { MarketService } from 'src/services/market.service';
 import { GameCycleService } from 'src/services/game-cycle.service';
 
 
@@ -54,7 +55,8 @@ import { GameCycleService } from 'src/services/game-cycle.service';
     StationResourceService,
     StationDeliveryService,
     StationSponsorService,
-    CurrencyService,
+    SpaceAcademyService,
+    MarketService,
     GameCycleService
   ],
   bootstrap: [AppComponent],

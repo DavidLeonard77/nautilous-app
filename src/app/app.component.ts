@@ -9,6 +9,7 @@ import { StationResourceService } from 'src/services/station-resource.service';
 import { GameCycleService } from 'src/services/game-cycle.service';
 import { StationDeliveryService } from 'src/services/station-delivery.service';
 import { StationSponsorService } from 'src/services/station-sponsor.service';
+import { SpaceAcademyService } from 'src/services/space-academy.service';
 
 import { ResourceContainer } from 'src/modals/station-resource.type';
 import { ResourceDelivery } from 'src/modals/station-delivery.type';
@@ -29,10 +30,11 @@ export class AppComponent implements OnInit {
   dataSource: MatTableDataSource<ResourceContainer>;
 
   constructor(
-    private stationService: SpaceStationService,
+    private spaceStationService: SpaceStationService,
     private stationPersonelService: StationPersonelService,
     private stationDeliveryService: StationDeliveryService,
     private stationComponentService: StationComponentService,
+    public spaceAcademyService: SpaceAcademyService,
     public stationSponsorService: StationSponsorService,
     public stationResourceService: StationResourceService,
     public gameCycleService: GameCycleService,
@@ -45,19 +47,19 @@ export class AppComponent implements OnInit {
     iconRegistry.addSvgIcon('personel-filled', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/baseline-account_circle-24px.svg'));
     iconRegistry.addSvgIcon('personel-vacant', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/outline-account_circle-24px.svg'));
 
-    console.log(this.stationService.spaceStation);
+    console.log(this.spaceStationService.spaceStation);
   }
 
   ngOnInit(): void {
-    this.gameCycleService.pulse$.subscribe(() => {
-      this.stationService.runComponents();
+    this.gameCycleService.pulse.subscribe(() => {
+      this.spaceStationService.runComponents();
       this.updateResourcePanel();
-      console.log(this.stationService.spaceStation);
+      // console.log(this.spaceStationService.spaceStation);
     });
   }
 
   private updateResourcePanel(): void {
-    this.dataSource = new MatTableDataSource(this.stationService.resourceContainers);
+    this.dataSource = new MatTableDataSource(this.spaceStationService.resourceContainers);
     this.dataSource.sort = this.sort;
   }
 
@@ -66,23 +68,21 @@ export class AppComponent implements OnInit {
   }
 
   addStationComponent(label: string): void {
-    this.stationService.spaceStation.components.unshift(this.stationComponentService.getStationConfig(label));
+    this.stationComponentService.purchaseComponent(label);
   }
 
   addStationDelivery(index: number): void {
-    const label: string = this.stationService.stationDeliveryList[index];
-    const delivery: ResourceDelivery = this.stationDeliveryService.getStationDelivery(label);
-    this.stationDeliveryService.applyStationDelivery(delivery);
+    const label: string = this.spaceStationService.stationDeliveryList[index];
+    this.stationDeliveryService.purchaseStationDelivery(label);
   }
 
   addStationPersonel(index: number): void {
-    const label: string = this.stationService.stationPersonelList[index];
-    const personel: StationPersonel = this.stationPersonelService.getStationPersonel(label);
-    this.stationService.spaceStation.personel.unshift(personel);
+    const label: string = this.spaceStationService.stationPersonelList[index];
+    this.spaceAcademyService.purchaseRecruit(label);
   }
 
   removeStationPersonel(index: number): void {
-    this.stationService.spaceStation.personel.splice(index, 1);
+    this.spaceStationService.spaceStation.personel.splice(index, 1);
   }
 
   assignStationPersonel(post: ComponentPost): void {
@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
   }
 
   removeStationComponent(index: number): void {
-    this.stationService.spaceStation.components.splice(index, 1);
+    this.spaceStationService.spaceStation.components.splice(index, 1);
   }
 
   dragStart(event): void {

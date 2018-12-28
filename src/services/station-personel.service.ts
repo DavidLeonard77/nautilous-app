@@ -67,6 +67,8 @@ export class StationPersonelService {
           'ee',
           'Electrical Engineer',
           'EE',
+          500,
+          10,
           globalPorts
         );
       break;
@@ -76,6 +78,8 @@ export class StationPersonelService {
           'bs',
           'Botanical Scientist',
           'BS',
+          300,
+          8,
           globalPorts
         );
       break;
@@ -85,6 +89,8 @@ export class StationPersonelService {
           'sm',
           'Station Medic',
           'SM',
+          700,
+          12,
           globalPorts
         );
       break;

@@ -9,14 +9,14 @@ export class GameCycleService {
   value: number;
   day: number;
 
-  pulse$: Observable<void>;
-  pulseSubject: BehaviorSubject<void>;
+  pulse$: Observable<number>;
+  pulse: BehaviorSubject<number>;
 
   constructor(
   ) {
 
-    this.pulseSubject = new BehaviorSubject(null);
-    this.pulse$ = this.pulseSubject.asObservable();
+    this.pulse = new BehaviorSubject(null);
+    this.pulse$ = this.pulse.asObservable();
 
     this.timer = null;
     this.interval = 1000;
@@ -30,7 +30,7 @@ export class GameCycleService {
     }
     this.timer = setInterval(() => {
       this.day++;
-      this.pulseSubject.next(null);
+      this.pulse.next(this.day);
     }, this.interval);
   }
   stop(): void {

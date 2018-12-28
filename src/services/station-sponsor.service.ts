@@ -35,8 +35,7 @@ export class StationSponsorService {
 
     this.selectedSponsor = this.sponsors[0];
 
-    this.gameCycleService.pulse$.subscribe(() => {
-      console.log(this.gameCycleService.day % this.selectedSponsor.cycle);
+    this.gameCycleService.pulse.subscribe(() => {
       if (!(this.gameCycleService.day % this.selectedSponsor.cycle)) {
         this.spaceStaionService.spaceStation.wallet += this.selectedSponsor.investment;
       }

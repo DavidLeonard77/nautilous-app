@@ -43,7 +43,7 @@ export class SpaceStationService {
 
     this.resourceContainers = [];
 
-    this.spaceStation = new SpaceStation('Super Station', 2000);
+    this.spaceStation = new SpaceStation('Super Station', 20000);
 
   }
 

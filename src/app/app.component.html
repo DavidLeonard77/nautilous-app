@@ -29,7 +29,7 @@
     <mat-card class="resource-levels">
       <mat-card-subtitle>
         <span>Container Levels</span>
-        <span>Funds: {{stationService.spaceStation.wallet | number : '1.0-0'}}</span>
+        <span>Funds: {{spaceStationService.spaceStation.wallet | number : '1.0-0'}}</span>
         <span [ngClass]="{'color-primary': timer}">Day {{gameCycleService.day}}</span>
       </mat-card-subtitle>
       <mat-card-content>
@@ -47,12 +47,10 @@
             <th mat-header-cell *matHeaderCellDef>Level</th>
             <td mat-cell *matCellDef="let container"> 
               <mat-progress-bar
-                class="example-margin"
                 [color]="container.value ? 'primary' : 'warn'"
                 [mode]="'determinate'"
                 [value]="container.value * (100/container.max)"
-              >
-              </mat-progress-bar>
+              ></mat-progress-bar>
             </td>
           </ng-container>
           <ng-container matColumnDef="max">
@@ -76,7 +74,7 @@
     </mat-card-subtitle>
     <mat-card-content>
       <button
-        *ngFor="let stationComponentLabel of stationService.stationComponentList; let i = index;"
+        *ngFor="let stationComponentLabel of spaceStationService.stationComponentList; let i = index;"
         mat-stroked-button
         color="accent"
         (click)="addStationComponent(stationComponentLabel)"
@@ -91,7 +89,7 @@
     </mat-card-subtitle>
     <mat-card-content>
       <button
-        *ngFor="let stationDeliveryLabel of stationService.stationDeliveryList; let i = index;"
+        *ngFor="let stationDeliveryLabel of spaceStationService.stationDeliveryList; let i = index;"
         mat-stroked-button
         color="accent"
         (click)="addStationDelivery(i)"
@@ -105,12 +103,24 @@
       <span>Academy</span>
     </mat-card-subtitle>
     <mat-card-content>
-      <button
-        *ngFor="let stationPersonelLabel of stationService.stationPersonelList; let i = index;"
-        mat-stroked-button
-        color="accent"
-        (click)="addStationPersonel(i)"
-      >{{stationPersonelLabel}}</button>
+
+      <div *ngFor="let stationPersonelLabel of spaceStationService.stationPersonelList; let i = index;">
+        <button
+          mat-stroked-button
+          color="accent"
+          (click)="addStationPersonel(i)"
+        >{{stationPersonelLabel}}</button>
+
+        <div *ngFor="let cadet of spaceAcademyService.academy">
+          <mat-progress-bar
+            *ngIf="cadet.personel.label === stationPersonelLabel"
+            [color]="'primary'"
+            [mode]="'determinate'"
+            [value]="(1 - ((cadet.grad - gameCycleService.day) / (cadet.grad - cadet.enroll))) * 100"
+          ></mat-progress-bar>
+        </div>
+
+      </div>
     </mat-card-content>
   </mat-card>
 
@@ -124,7 +134,7 @@
           [selectable]="true"
           [removable]="true"
           (removed)="removeStationPersonel(i)"
-          *ngFor="let personel of stationService.spaceStation.personel; let i = index;"
+          *ngFor="let personel of spaceStationService.spaceStation.personel; let i = index;"
         >
           {{personel.alt}} <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
@@ -138,7 +148,7 @@
     <!-- Components -->
     <mat-card
       [ngClass]="{'active' : component.active, 'disabled' : component.disabled}"
-      *ngFor="let component of stationService.spaceStation.components; let i = index;"
+      *ngFor="let component of spaceStationService.spaceStation.components; let i = index;"
     >
     
       <mat-card-subtitle>
